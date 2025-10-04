@@ -136,4 +136,3 @@ class CategoryRepositoryTest extends RepositoryTest {
                 .containsExactly(privateCategory)
                 .doesNotContain(publicCategory);
     }
-}
