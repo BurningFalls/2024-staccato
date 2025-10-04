@@ -83,23 +83,6 @@ reviews:
       enabled: true
 
     # ===============================
-    # Language-specific linters
-    # ===============================
-    # Linter for JavaScript and TypeScript.
-    # Detects syntax errors, unused variables, and code style issues.
-    eslint:
-      enabled: true
-    # Fast Python linter for style and error checking.
-    # Integrates common linting rules like flake8 and pylint.
-    ruff:
-      enabled: true
-    # Aggregated linter for Go (Golang) projects.
-    # Runs multiple Go linters at once using the provided configuration file.
-    golangci-lint:
-      enabled: true
-      config_file: ".golangci.yml"
-
-    # ===============================
     # Infrastructure and configuration linters
     # ===============================
     # Linter for Dockerfiles. Checks for syntax errors and bad practices.
@@ -115,10 +98,56 @@ reviews:
     actionlint:
       enabled: true
 
+  # Configuration for pre merge checks
+  # Default: {}
+  pre_merge_checks:
+    # Docstring Coverage - Checks if the code has sufficient docstrings.
+    # Default: {}
+    docstrings:
+      # Mode - Determines how strictly the docstring coverage check is enforced. Warning will only generate a warning and does not require the user to resolve the check. Error requires the user to resolve issues before merging the pull request. If set to error and the request changes workflow is enabled, the pull request will be blocked until the issues are resolved.
+      # Options: off, warning, error
+      # Default: "warning"
+      mode: "off"
+
+    # Title Check - Checks if the pull request title is appropriate and follows best practices.
+    # Default: {}
+    title:
+      # Mode - Determines how strictly the title check is enforced. Warning will only generate a warning and does not require the user to resolve the check. Error requires the user to resolve issues before merging the pull request. If set to error and the request changes workflow is enabled, the pull request will be blocked until the issues are resolved.
+      # Options: off, warning, error
+      # Default: "warning"
+      mode: "off"
+
+    # Description Check - Checks if the pull request description is appropriate and follows best practices.
+    # Default: {}
+    description:
+      # Mode - Determines how strictly the description check is enforced. Warning will only generate a warning and does not require the user to resolve the check. Error requires the user to resolve issues before merging the pull request. If set to error and the request changes workflow is enabled, the pull request will be blocked until the issues are resolved.
+      # Options: off, warning, error
+      # Default: "warning"
+      mode: "off"
+
+    # Linked Issue Assessment - Checks if the pull request addresses the linked issues. Generate an assessment of how well the changes address the linked issues.
+    # Default: {}
+    issue_assessment:
+      # Mode - Determines how strictly the issue assessment check is enforced. Warning will only generate a warning and does not require the user to resolve the check. Error requires the user to resolve issues before merging the pull request. If set to error and the request changes workflow is enabled, the pull request will be blocked until the issues are resolved.
+      # Options: off, warning, error
+      # Default: "warning"
+      mode: "off"
+
+  # Configuration for finishing touches
+  # Default: {}
   finishing_touches:
-    # Checks whether new or modified code includes corresponding unit tests.
-    # Recommends adding tests for uncovered logic.
+    # Docstrings - Options for generating Docstrings for your PRs/MRs.
+    # Default: {}
+    docstrings:
+      # Docstrings - Allow CodeRabbit to generate docstrings for PRs/MRs.
+      # Default: true
+      enabled: false
+
+    # Unit Tests - Options for generating unit tests for your PRs/MRs.
+    # Default: {}
     unit_tests:
+      # Unit Tests - Allow CodeRabbit to generate unit tests for PRs/MRs.
+      # Default: true
       enabled: true
 
 # =============================================================================
