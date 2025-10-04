@@ -1,32 +1,157 @@
-# Configuration for development teams
-language: "ko"
 
+# CodeRabbit Configuration Template
+# Complete reference: https://docs.coderabbit.ai/reference/configuration
+# Copy this file to .coderabbit.yaml in your repository root
+
+# =============================================================================
+# GLOBAL SETTINGS
+# These settings apply to your entire CodeRabbit configuration
+# =============================================================================
+
+# Set the language for reviews by using the corresponding ISO language code.
+# Default: "en-US"
+language: "ko-KR"
+# Set the tone of reviews and chat. Example: 'You must use talk like Mr. T. I pity the fool who doesn't!'
+# Default: ""
+tone_instructions: "Be thorough and focus on security and maintainability"
+# Enable early-access features.
+# Default: false
+early_access: false
+# Enable free tier features for users not on a paid plan.
+# Default: true
+enable_free_tier: true
+
+# =============================================================================
+# REVIEWS
+# Settings related to reviews.
+# =============================================================================
+
+# Settings related to reviews.
+# Default: {}
 reviews:
+  # Set the profile for reviews. Assertive profile yields more feedback, that may be considered nitpicky.
+  # Options: chill, assertive
+  # Default: "chill"
   profile: "assertive"
+  # Generate a high level summary of the changes in the PR/MR description.
+  # Default: true
   high_level_summary: true
+  # Generate walkthrough in a markdown collapsible section.
+  # Default: false
+  collapse_walkthrough: true
+  # Generate a summary of the changed files in the walkthrough.
+  # Default: true
+  changed_files_summary: true
+  # Generate sequence diagrams in the walkthrough.
+  # Default: true
+  sequence_diagrams: true
+  # Estimate the code review effort in the walkthrough.
+  # Default: true
+  estimate_code_review_effort: false
+  # Generate a poem in the walkthrough comment.
+  # Default: true
+  poem: false
+
+  # Configuration for auto review
+  # Default: {}
   auto_review:
+    # Automatic Review - Automatic code review
+    # Default: true
     enabled: true
-    drafts: false
-    ignore_title_keywords:
-      - "wip"
-      - "draft"
-    base_branches: ["develop"]
+    # Automatic Incremental Review - Automatic incremental code review on each push
+    # Default: true
+    auto_incremental_review: true
+    # Base branches (other than the default branch) to review. Accepts regex patterns. Use '.*' to match all branches.
+    # Default: []
+    base_branches: ['develop']
+
   tools:
-    eslint:
-      enabled: true
-    ruff:
-      enabled: true
+    # ===============================
+    # Security tools
+    # ===============================
+    # Detects hardcoded secrets like API keys, passwords, and tokens.
+    # Helps prevent sensitive information leaks in commits.
     gitleaks:
       enabled: true
-    hadolint:
+    # Performs static analysis to detect security vulnerabilities and bad coding patterns.
+    # Supports multiple languages and common security rules (SQLi, XSS, etc.).
+    semgrep:
+      enabled: true
+    # Scans Infrastructure-as-Code (IaC) files such as Terraform, CloudFormation, or Kubernetes manifests
+    # to ensure they follow security best practices.
+    checkov:
       enabled: true
 
+    # ===============================
+    # Language-specific linters
+    # ===============================
+    # Linter for JavaScript and TypeScript.
+    # Detects syntax errors, unused variables, and code style issues.
+    eslint:
+      enabled: true
+    # Fast Python linter for style and error checking.
+    # Integrates common linting rules like flake8 and pylint.
+    ruff:
+      enabled: true
+    # Aggregated linter for Go (Golang) projects.
+    # Runs multiple Go linters at once using the provided configuration file.
+    golangci-lint:
+      enabled: true
+      config_file: ".golangci.yml"
+
+    # ===============================
+    # Infrastructure and configuration linters
+    # ===============================
+    # Linter for Dockerfiles. Checks for syntax errors and bad practices.
+    # Example: discourages using 'latest' tags or 'apt-get upgrade'.
+    hadolint:
+      enabled: true
+    # Validates YAML syntax and formatting.
+    # Useful for ensuring consistent indentation, spacing, and structure.
+    yamllint:
+      enabled: true
+    # Linter for GitHub Actions workflows (.github/workflows/*.yml).
+    # Ensures syntax correctness and valid field usage.
+    actionlint:
+      enabled: true
+
+  finishing_touches:
+    # Checks whether new or modified code includes corresponding unit tests.
+    # Recommends adding tests for uncovered logic.
+    unit_tests:
+      enabled: true
+
+# =============================================================================
+# CHAT
+# Configuration for chat
+# =============================================================================
+
+# Configuration for chat
+# Default: {}
 chat:
+  # Enable the bot to reply automatically without requiring the user to tag it.
+  # Default: true
   auto_reply: true
 
+# =============================================================================
+# KNOWLEDGE BASE
+# Configuration for knowledge base
+# =============================================================================
+
+# Configuration for knowledge base
+# Default: {}
 knowledge_base:
-  code_guidelines:
-    enabled: true
-    filePatterns:
-      - "**/.cursorrules"
-      - "**/CODING_STANDARDS.md"
+  # Configuration for learnings
+  # Default: {}
+  learnings:
+    # Learnings - Specify the scope of learnings to use for the knowledge base. 'local' uses the repository's learnings, 'global' uses the organization's learnings, and 'auto' uses repository's learnings for public repositories and organization's learnings for private repositories.
+    # Options: local, global, auto
+    # Default: "auto"
+    scope: "local"
+  # Configuration for issues
+  # Default: {}
+  issues:
+    # Issues - Specify the scope of git platform (GitHub/GitLab) issues to use for the knowledge base. 'local' uses the repository's issues, 'global' uses the organization's issues, and 'auto' uses repository's issues for public repositories and organization's issues for private repositories.
+    # Options: local, global, auto
+    # Default: "auto"
+    scope: "local"
